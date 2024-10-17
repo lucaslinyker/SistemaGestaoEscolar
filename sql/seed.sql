@@ -1,22 +1,22 @@
-CREATE DATABASE SistemaGestaoEscolar;
-USE SistemaGestaoEscolar;
+CREATE DATABASE sistema_gestao_escolar;
+USE sistema_gestao_escolar;
 
 CREATE TABLE Cursos (
-	id INT IDENTITY(1,1) PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
 	nome VARCHAR(100) NOT NULL,
 	descricao TEXT,
 	duracao INT NOT NULL
 );
 
 CREATE TABLE Professores (
-	id INT IDENTITY(1,1) PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
 	nome VARCHAR(100) NOT NULL,
 	especialidade VARCHAR(100),
 	contato VARCHAR(100)
 );
 
 CREATE TABLE Classes (
-	id INT IDENTITY(1,1) PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
 	nome VARCHAR(100) NOT NULL,
 	professor_id INT,
 	curso_id INT,
@@ -25,7 +25,7 @@ CREATE TABLE Classes (
 );
 
 CREATE TABLE Alunos (
-	id INT IDENTITY(1,1) PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
 	nome VARCHAR(100) NOT NULL,
 	matricula VARCHAR(50) UNIQUE NOT NULL,
 	classe_id INT,
@@ -34,7 +34,7 @@ CREATE TABLE Alunos (
 );
 
 CREATE TABLE Horarios (
-	id INT IDENTITY(1,1) PRIMARY KEY,
+	id INT AUTO_INCREMENT PRIMARY KEY,
 	curso_id INT,
 	professor_id INT,
 	classe_id INT,
@@ -62,7 +62,7 @@ INSERT INTO Classes (nome, professor_id, curso_id) VALUES
 ('Turma 3C', 3, 3); -- Programação com Paulo Oliveira
 
 INSERT INTO Alunos (nome, matricula, classe_id, email) VALUES
-('Jo�o Pereira', '20230001', 1, 'joao.pereira@escola.com.br'),
+('João Pereira', '20230001', 1, 'joao.pereira@escola.com.br'),
 ('Ana Lima', '20230002', 2, 'ana.lima@escola.com.br'),
 ('Pedro Martins', '20230003', 3, 'pedro.martins@escola.com.br');
 
@@ -71,18 +71,12 @@ INSERT INTO Horarios (curso_id, professor_id, classe_id, horario_inicio, horario
 (2, 2, 2, '10:00:00', '11:30:00', 'Sala 102'), -- História com Fernanda Souza
 (3, 3, 3, '13:00:00', '14:30:00', 'Sala 103'); -- Programação com Paulo Oliveira
 
-SELECT * FROM Cursos;
-SELECT * FROM Professores;
-SELECT * FROM Classes;
-SELECT * FROM Alunos;
-SELECT * FROM Horarios;
-
 CREATE VIEW VerCursos AS
 	SELECT
 		id AS Id,
 		nome AS Nome,
-		descricao AS Descri��o,
-		duracao AS Dura��o
+		descricao AS Descrição,
+		duracao AS Duração
 	FROM Cursos;
 
 CREATE VIEW VerProfessores AS
@@ -94,7 +88,7 @@ CREATE VIEW VerProfessores AS
 	FROM Professores;
 
 CREATE VIEW VerClasses AS
-	SELECT TOP 100 PERCENT
+	SELECT
 		Cla.id AS Id,
 		Cla.nome AS Nome,
 		P.nome AS Professor,
@@ -133,9 +127,3 @@ CREATE VIEW VerHorarios AS
 		ON H.professor_id = P.id
 	INNER JOIN Classes Cla
 		ON H.classe_id = Cla.id;
-
-SELECT * FROM VerCursos;
-SELECT * FROM VerProfessores;
-SELECT * FROM VerClasses;
-SELECT * FROM VerAlunos;
-SELECT * FROM VerHorarios;
